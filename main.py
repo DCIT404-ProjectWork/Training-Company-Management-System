@@ -19,7 +19,7 @@ def connect_to_oracle():
 class TrainingCompanyUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Training Company Management System")
+        self.title("Course Management System")
         self.geometry("800x800")
 
         self.create_widgets()
