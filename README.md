@@ -10,7 +10,7 @@
 
  run the code from main.py
 
-<i>Insert record -- stored procedures</i>
+## <i>Insert record -- stored procedures</i>
 ```
 CREATE OR REPLACE PROCEDURE insert_delegate(
 
@@ -33,7 +33,6 @@ CREATE OR REPLACE PROCEDURE insert_delegate(
     p_attTelNo IN VARCHAR2,
     
     p_attFaxNo IN VARCHAR2,
-    
     p_attEmailAddress IN VARCHAR2,
     
     p_clientNo IN NUMBER
