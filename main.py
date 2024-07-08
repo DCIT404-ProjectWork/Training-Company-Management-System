@@ -2,11 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from db_connection import get_connection
 import oracledb
-import shutil
-import os
 
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox
 
 def connect_to_oracle():
     try:
@@ -101,8 +99,17 @@ class TrainingCompanyUI(tk.Tk):
         self.delete_button = tk.Button(self, text="Delete Record", command=self.delete_record)
         self.delete_button.grid(row=13, column=1, padx=10, pady=10)
 
+            # Entry fields
+        tk.Label(self, text="Backup Directory:").grid(row=14, column=0, padx=10, pady=10)
+        self.backup_dir = tk.Entry(self)
+        self.backup_dir.grid(row=14, column=1)
+
+        tk.Label(self, text="Backup File Name:").grid(row=15, column=0, padx=10, pady=10)
+        self.backup_file = tk.Entry(self)
+        self.backup_file.grid(row=15, column=1)
+
         self.backup_button = tk.Button(self, text="Backup", command=self.backup_database)
-        self.backup_button.grid(row=14, column=0, columnspan=2, padx=10, pady=10)
+        self.backup_button.grid(row=16, column=0, columnspan=2, padx=10, pady=10)
 
 
     # def create_backup_form(self):
