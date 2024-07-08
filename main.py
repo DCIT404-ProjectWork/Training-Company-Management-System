@@ -8,7 +8,6 @@ import os
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 
-# Establish a database connection
 def connect_to_oracle():
     try:
         conn_str = 'system/admin@localhost:1521/xepdb1'
@@ -26,12 +25,8 @@ class TrainingCompanyUI(tk.Tk):
         self.geometry("800x800")
 
         self.create_widgets()
-
-        # super().__init__()
-        # self.title("Training Company Management")
-        # self.geometry("600x400")
         
-        # Create database connection
+        # database connection
         self.connection = connect_to_oracle()
         if not self.connection:
             self.destroy()
@@ -44,22 +39,22 @@ class TrainingCompanyUI(tk.Tk):
         # self.create_delete_form()
         # self.create_backup_form()
     def create_widgets(self):
-        # Delegate registration fields
         tk.Label(self, text="Delegate No").grid(row=0, column=0, padx=10, pady=10)
         self.delegate_no = tk.Entry(self)
         self.delegate_no.grid(row=0, column=1, padx=10, pady=10)
 
-        tk.Label(self, text="Delegate First Name").grid(row=1, column=0, padx=10, pady=10)
-        self.delegate_first_name = tk.Entry(self)
-        self.delegate_first_name.grid(row=1, column=1, padx=10, pady=10)
-
-        tk.Label(self, text="Delegate Last Name").grid(row=2, column=0, padx=10, pady=10)
-        self.delegate_last_name = tk.Entry(self)
-        self.delegate_last_name.grid(row=2, column=1, padx=10, pady=10)
-
-        tk.Label(self, text="Delegate Title:").grid(row=3, column=0, padx=10, pady=10)
+        tk.Label(self, text="Delegate Title:").grid(row=1, column=0, padx=10, pady=10)
         self.delegateTitle = tk.Entry(self)
-        self.delegateTitle.grid(row=3, column=1, padx=10, pady=10)
+        self.delegateTitle.grid(row=1, column=1, padx=10, pady=10)
+
+        tk.Label(self, text="Delegate First Name").grid(row=2, column=0, padx=10, pady=10)
+        self.delegate_first_name = tk.Entry(self)
+        self.delegate_first_name.grid(row=2, column=1, padx=10, pady=10)
+
+        tk.Label(self, text="Delegate Last Name").grid(row=3, column=0, padx=10, pady=10)
+        self.delegate_last_name = tk.Entry(self)
+        self.delegate_last_name.grid(row=3, column=1, padx=10, pady=10)
+
 
         tk.Label(self, text="Street:").grid(row=4, column=0, padx=10, pady=10)
         self.delegateStreet = tk.Entry(self)
@@ -161,20 +156,55 @@ class TrainingCompanyUI(tk.Tk):
             connection = get_connection()
             cursor = connection.cursor()
 
-            # Call the PL/SQL stored procedure
+            p_title = cursor.var(oracledb.STRING)
             p_first_name = cursor.var(oracledb.STRING)
             p_last_name = cursor.var(oracledb.STRING)
+            p_street = cursor.var(oracledb.STRING)
+            p_city = cursor.var(oracledb.STRING)
+            p_state = cursor.var(oracledb.STRING)
+            p_zip_code = cursor.var(oracledb.STRING)
+            p_tel_no = cursor.var(oracledb.STRING)
+            p_fax_no = cursor.var(oracledb.STRING)
+            p_email_address = cursor.var(oracledb.STRING)
+            p_client_no = cursor.var(oracledb.NATIVE_INT)
             p_success = cursor.var(oracledb.STRING)
             p_error_msg = cursor.var(oracledb.STRING)
 
-            cursor.callproc('retrieve_delegate', [delegate_no, p_first_name, p_last_name, p_success, p_error_msg])
+            cursor.callproc('retrieve_delegate', [delegate_no, p_title, p_first_name, p_last_name, p_street, p_city, p_state, p_zip_code, p_tel_no, p_fax_no, p_email_address, p_client_no ,p_success, p_error_msg])
 
             if p_success.getvalue() == 'Success':
+                self.delegateTitle.delete(0, tk.END)
+                self.delegateTitle.insert(0, p_title.getvalue())
+
                 self.delegate_first_name.delete(0, tk.END)
                 self.delegate_first_name.insert(0, p_first_name.getvalue())
 
                 self.delegate_last_name.delete(0, tk.END)
                 self.delegate_last_name.insert(0, p_last_name.getvalue())
+
+                self.delegateStreet.delete(0, tk.END)
+                self.delegateStreet.insert(0, p_street.getvalue())
+
+                self.delegateCity.delete(0, tk.END)
+                self.delegateCity.insert(0, p_city.getvalue())
+
+                self.delegateState.delete(0, tk.END)
+                self.delegateState.insert(0, p_state.getvalue())
+
+                self.delegateZipCode.delete(0, tk.END)
+                self.delegateZipCode.insert(0, p_zip_code.getvalue())
+
+                self.attTelNo.delete(0, tk.END)
+                self.attTelNo.insert(0, p_tel_no.getvalue())
+
+                self.attFaxNo.delete(0, tk.END)
+                self.attFaxNo.insert(0, p_fax_no.getvalue())
+
+                self.attEmailAddress.delete(0, tk.END)
+                self.attEmailAddress.insert(0, p_email_address.getvalue())
+
+                self.clientNo.delete(0, tk.END)
+                self.clientNo.insert(0, p_client_no.getvalue())
             else:
                 messagebox.showerror("Error", f"Error retrieving delegate: {p_error_msg.getvalue()}")
 
@@ -233,133 +263,7 @@ class TrainingCompanyUI(tk.Tk):
         except oracledb.Error as error:
             messagebox.showerror("Database Error", f"Error backing up database: {error}")
 
-# Main code to run the user interface
+
 if __name__ == "__main__":
-    # root = tk.Tk()
     app = TrainingCompanyUI()
     app.mainloop()
-
-# Create a class for the user interface
-# class TrainingCompanyUI:
-#     def __init__(self, root):
-#         self.root = root
-#         self.root.title("Training Company Management System")
-
-#         # Create database connection
-#         self.connection = connect_to_oracle()
-#         if not self.connection:
-#             self.root.destroy()
-#             return
-
-#         # Create UI elements
-#         self.create_widgets()
-
-#     def create_widgets(self):
-#         # Insert Record Button
-#         insert_btn = tk.Button(self.root, text="Insert Record", command=self.insert_record)
-#         insert_btn.pack(pady=10)
-
-#         # Retrieve Record Button
-#         retrieve_btn = tk.Button(self.root, text="Retrieve Record", command=self.retrieve_record)
-#         retrieve_btn.pack(pady=10)
-
-#         # Update Record Button
-#         update_btn = tk.Button(self.root, text="Update Record", command=self.update_record)
-#         update_btn.pack(pady=10)
-
-#         # Delete Record Button
-#         delete_btn = tk.Button(self.root, text="Delete Record", command=self.delete_record)
-#         delete_btn.pack(pady=10)
-
-#         # Backup Button
-#         backup_btn = tk.Button(self.root, text="Backup Database", command=self.backup_database)
-#         backup_btn.pack(pady=10)
-
-#     def insert_record(self):
-#         try:
-#             delegateNo = simpledialog.askinteger("Insert Record", "Enter Delegate No:")
-#             delegateTitle = simpledialog.askstring("Insert Record", "Enter Delegate Title:")
-#             delegateFName = simpledialog.askstring("Insert Record", "Enter Delegate First Name:")
-#             delegateLName = simpledialog.askstring("Insert Record", "Enter Delegate Last Name:")
-#             delegateStreet = simpledialog.askstring("Insert Record", "Enter Delegate Street:")
-#             delegateCity = simpledialog.askstring("Insert Record", "Enter Delegate City:")
-#             delegateState = simpledialog.askstring("Insert Record", "Enter Delegate State:")
-#             delegateZipCode = simpledialog.askstring("Insert Record", "Enter Delegate Zip Code:")
-#             attTelNo = simpledialog.askstring("Insert Record", "Enter Delegate Tel No:")
-#             attFaxNo = simpledialog.askstring("Insert Record", "Enter Delegate Fax No:")
-#             attEmailAddress = simpledialog.askstring("Insert Record", "Enter Delegate Email Address:")
-#             clientNo = simpledialog.askinteger("Insert Record", "Enter Client No:")
-
-#             cursor = self.connection.cursor()
-#             cursor.callproc("insert_delegate", [delegateNo, delegateTitle, delegateFName, delegateLName, delegateStreet, delegateCity, delegateState, delegateZipCode, attTelNo, attFaxNo, attEmailAddress, clientNo])
-#             cursor.close()
-#             messagebox.showinfo("Success", "Record inserted successfully.")
-#         except oracledb.Error as error:
-#             messagebox.showerror("Database Error", f"Error inserting record: {error}")
-
-#     def retrieve_record(self):
-#         try:
-#             delegateNo = simpledialog.askinteger("Retrieve Record", "Enter Delegate No:")
-#             cursor = self.connection.cursor()
-#             p_cursor = cursor.var(oracledb.CURSOR)
-#             cursor.callproc("retrieve_delegate", [delegateNo, p_cursor])
-#             rows = p_cursor.getvalue().fetchall()
-#             cursor.close()
-
-#             if rows:
-#                 for row in rows:
-#                     print(row)
-#                     messagebox.showinfo("Record Retrieved", str(row))
-#             else:
-#                 messagebox.showwarning("No Data", "No record found for the provided Delegate No.")
-#         except oracledb.Error as error:
-#             messagebox.showerror("Database Error", f"Error retrieving record: {error}")
-
-#     def update_record(self):
-#         try:
-#             delegateNo = simpledialog.askinteger("Update Record", "Enter Delegate No:")
-#             delegateTitle = simpledialog.askstring("Update Record", "Enter Delegate Title:")
-#             delegateFName = simpledialog.askstring("Update Record", "Enter Delegate First Name:")
-#             delegateLName = simpledialog.askstring("Update Record", "Enter Delegate Last Name:")
-#             delegateStreet = simpledialog.askstring("Update Record", "Enter Delegate Street:")
-#             delegateCity = simpledialog.askstring("Update Record", "Enter Delegate City:")
-#             delegateState = simpledialog.askstring("Update Record", "Enter Delegate State:")
-#             delegateZipCode = simpledialog.askstring("Update Record", "Enter Delegate Zip Code:")
-#             attTelNo = simpledialog.askstring("Update Record", "Enter Delegate Tel No:")
-#             attFaxNo = simpledialog.askstring("Update Record", "Enter Delegate Fax No:")
-#             attEmailAddress = simpledialog.askstring("Update Record", "Enter Delegate Email Address:")
-#             clientNo = simpledialog.askinteger("Update Record", "Enter Client No:")
-
-#             cursor = self.connection.cursor()
-#             cursor.callproc("update_delegate", [delegateNo, delegateTitle, delegateFName, delegateLName, delegateStreet, delegateCity, delegateState, delegateZipCode, attTelNo, attFaxNo, attEmailAddress, clientNo])
-#             cursor.close()
-#             messagebox.showinfo("Success", "Record updated successfully.")
-#         except oracledb.Error as error:
-#             messagebox.showerror("Database Error", f"Error updating record: {error}")
-
-#     def delete_record(self):
-#         try:
-#             delegateNo = simpledialog.askinteger("Delete Record", "Enter Delegate No:")
-#             cursor = self.connection.cursor()
-#             cursor.callproc("delete_delegate", [delegateNo])
-#             cursor.close()
-#             messagebox.showinfo("Success", "Record deleted successfully.")
-#         except oracledb.Error as error:
-#             messagebox.showerror("Database Error", f"Error deleting record: {error}")
-
-#     def backup_database(self):
-#         try:
-#             backup_dir = simpledialog.askstring("Backup Database", "Enter Backup Directory:")
-#             backup_file = simpledialog.askstring("Backup Database", "Enter Backup File Name:")
-#             cursor = self.connection.cursor()
-#             cursor.callproc("backup_database", [backup_dir, backup_file])
-#             cursor.close()
-#             messagebox.showinfo("Success", "Database backup created successfully.")
-#         except oracledb.Error as error:
-#             messagebox.showerror("Database Error", f"Error backing up database: {error}")
-
-# # Main code to run the user interface
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = TrainingCompanyUI(root)
-#     root.mainloop()
