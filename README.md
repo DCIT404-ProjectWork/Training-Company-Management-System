@@ -42,8 +42,8 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20002, 'Error inserting delegate: ' || SQLERRM);
 END;
 ```
- ![alt text](<Screenshot (28).png>)
- ![alt text](<Screenshot (29).png>)
+ ![alt text](<screenshots/Screenshot (28).png>)
+ ![alt text](<screenshots/Screenshot (29).png>)
 
 #### <i>Retrieve record -- cursors</i>
 ```
@@ -124,8 +124,8 @@ EXCEPTION
 END retrieve_delegate;
 /
 ```
-![alt text](<Screenshot (30).png>)
-![alt text](<Screenshot (31).png>)
+![alt text](<screenshots/Screenshot (30).png>)
+![alt text](<screenshots/Screenshot (31).png>)
 
 #### <i>Update record -- stored procedures</i>
 
@@ -168,9 +168,9 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20006, 'Error updating delegate: ' || SQLERRM);
 END;
 ```
-![alt text](<Screenshot (32).png>)
-![alt text](<Screenshot (33).png>)
-![alt text](<Screenshot (34).png>)
+![alt text](<screenshots/Screenshot (32).png>)
+![alt text](<screenshots/Screenshot (33).png>)
+![alt text](<screenshots/Screenshot (34).png>)
 
 #### <i>delete record -- stored procedures</i>
 
@@ -188,9 +188,9 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20008, 'Error deleting delegate: ' || SQLERRM);
 END;
 ```
-![alt text](<Screenshot (34)-1.png>)
-![alt text](<Screenshot (35).png>)
-![alt text](<Screenshot (36).png>)
+![alt text](<screenshots/Screenshot (34)-1.png>)
+![alt text](<screenshots/Screenshot (35).png>)
+![alt text](<screenshots/Screenshot (36).png>)
 
 #### <i>Triggers to log user activities on a specified table into a log table</i>
 
@@ -282,7 +282,7 @@ BEGIN
 END;
 ```
 
-![alt text](<Screenshot (37).png>)
+![alt text](<screenshots/Screenshot (37).png>)
 
 #### <i>BackUp</i>
 ```
