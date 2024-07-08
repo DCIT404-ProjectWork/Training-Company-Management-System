@@ -10,31 +10,21 @@
 
  run the code from main.py
 
-## <i>Insert record -- stored procedures</i>
+##### <i>Insert record -- stored procedures</i>
 ```
 CREATE OR REPLACE PROCEDURE insert_delegate(
 
     p_delegateNo IN NUMBER,
-    
     p_delegateTitle IN VARCHAR2,
-    
     p_delegateFName IN VARCHAR2,
-    
     p_delegateLName IN VARCHAR2,
-    
     p_delegateStreet IN VARCHAR2,
-    
     p_delegateCity IN VARCHAR2,
-    
     p_delegateState IN VARCHAR2,
-    
     p_delegateZipCode IN VARCHAR2,
-    
     p_attTelNo IN VARCHAR2,
-    
     p_attFaxNo IN VARCHAR2,
     p_attEmailAddress IN VARCHAR2,
-    
     p_clientNo IN NUMBER
 
 ) AS
@@ -46,15 +36,10 @@ BEGIN
     COMMIT;
 
 EXCEPTION
-    
     WHEN DUP_VAL_ON_INDEX THEN
-    
         RAISE_APPLICATION_ERROR(-20001, 'Delegate No already exists.');
-    
     WHEN OTHERS THEN
-    
         RAISE_APPLICATION_ERROR(-20002, 'Error inserting delegate: ' || SQLERRM);
-
 END;
 ```
  
