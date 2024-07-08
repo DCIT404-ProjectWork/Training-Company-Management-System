@@ -29,13 +29,7 @@ class TrainingCompanyUI(tk.Tk):
         if not self.connection:
             self.destroy()
             return
-
-        # Create UI elements
-        # self.create_insert_form()
-        # self.create_retrieve_form()
-        # self.create_update_form()
-        # self.create_delete_form()
-        # self.create_backup_form()
+        
     def create_widgets(self):
         tk.Label(self, text="Delegate No").grid(row=0, column=0, padx=10, pady=10)
         self.delegate_no = tk.Entry(self)
@@ -86,7 +80,6 @@ class TrainingCompanyUI(tk.Tk):
         self.clientNo = tk.Entry(self)
         self.clientNo.grid(row=11, column=1, padx=10, pady=10)
 
-        # Buttons
         self.insert_button = tk.Button(self, text="Insert Record", command=self.insert_record)
         self.insert_button.grid(row=12, column=0, padx=10, pady=10)
 
@@ -99,7 +92,6 @@ class TrainingCompanyUI(tk.Tk):
         self.delete_button = tk.Button(self, text="Delete Record", command=self.delete_record)
         self.delete_button.grid(row=13, column=1, padx=10, pady=10)
 
-            # Entry fields
         tk.Label(self, text="Backup Directory:").grid(row=14, column=0, padx=10, pady=10)
         self.backup_dir = tk.Entry(self)
         self.backup_dir.grid(row=14, column=1)
@@ -110,25 +102,6 @@ class TrainingCompanyUI(tk.Tk):
 
         self.backup_button = tk.Button(self, text="Backup", command=self.backup_database)
         self.backup_button.grid(row=16, column=0, columnspan=2, padx=10, pady=10)
-
-
-    # def create_backup_form(self):
-    #     # Backup Form
-    #     backup_frame = tk.LabelFrame(self.root, text="Backup Database")
-    #     backup_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-    #     # Entry fields
-    #     tk.Label(backup_frame, text="Backup Directory:").grid(row=0, column=0, sticky=tk.E)
-    #     self.backup_dir = tk.Entry(backup_frame)
-    #     self.backup_dir.grid(row=0, column=1)
-
-    #     tk.Label(backup_frame, text="Backup File Name:").grid(row=1, column=0, sticky=tk.E)
-    #     self.backup_file = tk.Entry(backup_frame)
-    #     self.backup_file.grid(row=1, column=1)
-
-    #     # Backup Button
-    #     backup_btn = tk.Button(backup_frame, text="Backup", command=self.backup_database)
-    #     backup_btn.grid(row=2, columnspan=2, pady=10)
 
     def insert_record(self):
         try:
