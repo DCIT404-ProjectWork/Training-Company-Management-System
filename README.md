@@ -10,6 +10,64 @@
 
  run the code from main.py
 
+#### Creating of the tables
+
+#### <i>Client Table</i>
+```
+CREATE TABLE Client (clientNo NUMBER PRIMARY KEY, clientName VARCHAR2(255) NOT NULL, clientStreet VARCHAR2(255), clientCity VARCHAR2(255), clientState VARCHAR2(255), clientZipCode VARCHAR2(10), attTelNo VARCHAR2(20), attFaxNo VARCHAR2(20), attEmailAddress VARCHAR2(255));
+```
+
+#### <i>Delegate Table</i>
+```
+CREATE TABLE Delegate (delegateNo NUMBER PRIMARY KEY, delegateTitle VARCHAR2(50), delegateFName VARCHAR2(255) NOT NULL, delegateLName VARCHAR2(255) NOT NULL, delegateStreet VARCHAR2(255), delegateCity VARCHAR2(255), delegateState VARCHAR2(255), delegateZipCode VARCHAR2(10), attTelNo VARCHAR2(20), attFaxNo VARCHAR2(20), attEmailAddress VARCHAR2(255), clientNo NUMBER, FOREIGN KEY (clientNo) REFERENCES Client(clientNo));
+```
+
+#### <i>Employee Table</i>
+```
+CREATE TABLE Employee (employeeNo NUMBER PRIMARY KEY, employeeName VARCHAR2(255) NOT NULL, employeePosition VARCHAR2(255));
+```
+
+#### <i>Location Table</i>
+```
+CREATE TABLE Location (locationNo NUMBER PRIMARY KEY, locationName VARCHAR2(255) NOT NULL, maxSize NUMBER);
+```
+
+#### <i>CourseType Table</i>
+```
+CREATE TABLE CourseType (courseTypeNo NUMBER PRIMARY KEY, courseTypeDescription VARCHAR2(255) NOT NULL);
+```
+
+#### <i>Course Table</i>
+```
+CREATE TABLE Course (courseNo NUMBER PRIMARY KEY, courseName VARCHAR2(255) NOT NULL, courseDescription VARCHAR2(255), startDate DATE, startTime TIMESTAMP, endDate DATE, endTime TIMESTAMP, maxDelegates NUMBER, confirmed CHAR(1) CHECK (confirmed IN ('Y', 'N')), delivererEmployeeNo NUMBER, courseTypeNo NUMBER, FOREIGN KEY (delivererEmployeeNo) REFERENCES Employee(employeeNo), FOREIGN KEY (courseTypeNo) REFERENCES CourseType(courseTypeNo));
+```
+
+#### <i>CourseFee Table</i>
+```
+CREATE TABLE CourseFee (courseFeeNo NUMBER PRIMARY KEY, feeDescription VARCHAR2(255), fee NUMBER, courseNo NUMBER, FOREIGN KEY (courseNo) REFERENCES Course(courseNo));
+```
+
+#### <i>Booking Table</i>
+```
+CREATE TABLE Booking (bookingNo NUMBER PRIMARY KEY, bookingDate DATE, locationNo NUMBER, courseNo NUMBER, bookingEmployeeNo NUMBER, FOREIGN KEY (locationNo) REFERENCES Location(locationNo), FOREIGN KEY (courseNo) REFERENCES Course(courseNo), FOREIGN KEY (bookingEmployeeNo) REFERENCES Employee(employeeNo));
+```
+
+#### <i>PaymentMethod Table</i>
+```
+CREATE TABLE PaymentMethod (pMethodNo NUMBER PRIMARY KEY, methodDescription VARCHAR2(255) NOT NULL);
+```
+
+#### <i>Registration Table</i>
+```
+CREATE TABLE Registration (registrationNo NUMBER PRIMARY KEY, registrationDate DATE, delegateNo NUMBER, courseFeeNo NUMBER, registerEmployeeNo NUMBER, courseNo NUMBER, FOREIGN KEY (delegateNo) REFERENCES Delegate(delegateNo), FOREIGN KEY (courseFeeNo) REFERENCES CourseFee(courseFeeNo), FOREIGN KEY (registerEmployeeNo) REFERENCES Employee(employeeNo), FOREIGN KEY (courseNo) REFERENCES Course(courseNo));
+```
+
+#### <i>Invoice Table</i>
+```
+CREATE TABLE Invoice (invoiceNo NUMBER PRIMARY KEY, dateRaised DATE, datePaid DATE, creditCardNo VARCHAR2(20), holdersName VARCHAR2(255), expiryDate DATE, registrationNo NUMBER, pMethodNo NUMBER, FOREIGN KEY (registrationNo) REFERENCES Registration(registrationNo), FOREIGN KEY (pMethodNo) REFERENCES PaymentMethod(pMethodNo));
+```
+
+
 #### <i>Insert record -- stored procedures</i>
 ```
 CREATE OR REPLACE PROCEDURE insert_delegate(
